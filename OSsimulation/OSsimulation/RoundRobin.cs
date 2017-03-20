@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace OSsimulation
 {
@@ -10,6 +11,8 @@ namespace OSsimulation
     {
         /**container for all the proccesses that we are running.*/
         List<Process> roundr;
+
+        Stopwatch Stopwatch = new Stopwatch();
 
         /**constructor
         \param Process to be added to the List*/

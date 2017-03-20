@@ -13,6 +13,10 @@ namespace OSsimulation
         public int time_in_io = 0;
         public int time_in_queue = 0;
 
+        public int time_enter_queue;
+        public int time_start;
+        public int time_end;
+
         public Process()
         {
             //initializing random
