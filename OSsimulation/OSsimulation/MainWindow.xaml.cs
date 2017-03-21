@@ -25,18 +25,25 @@ namespace OSsimulation
         {
             InitializeComponent();
         }
+        /**Button action that runs through first the FCFS algorithm
+         * Then it runs through the SPN algorithm*/
         public async void OnClick(object sender, RoutedEventArgs e)
         {
             FCFS fcfs = new FCFS(10000);
             Stopwatch stop = new Stopwatch();
             stop.Start();
+
             fcfs.Run();
+
             stop.Stop();
             string ellapsed = stop.Elapsed.TotalSeconds.ToString();
             Text_block.Text = ellapsed;
-
             await Task.Delay(2000);
 
+            Text_block.Text = "Now for new Time";
+            await Task.Delay(2000);
+
+            /*
             SPN spn = new SPN(10000);
             stop.Reset();
             stop.Start();
@@ -44,6 +51,7 @@ namespace OSsimulation
             stop.Stop();
             ellapsed = stop.Elapsed.TotalSeconds.ToString();
             Text_block.Text = ellapsed;
+            */
         }
     }
 }
