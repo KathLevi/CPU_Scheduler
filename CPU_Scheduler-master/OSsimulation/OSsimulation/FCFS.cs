@@ -12,8 +12,6 @@ namespace OSsimulation
         /**List of processes that will be ran through algorithm*/
         public List<Process> fcfs = new List<Process>();
 
-        /**Stopwatch that will hold the total time that the process
-         * is created to the time that it is terminated*/
         Stopwatch Stopwatch = new Stopwatch();
 
         /** Constructor
@@ -35,15 +33,12 @@ namespace OSsimulation
         /**Loops through the process that is first in the list till it is done*/
         public async void Run()
         {
-            /* Loop through processes in queue starting at the back of the queue where the shortest process will be next*/
             for (int j = fcfs.Count(); j > 0; --j)
             {
-                //Gets the time that the stop watch has been running. This is the time that the process has been on the queue
                 fcfs[0].time_start = Stopwatch.Elapsed.Seconds;
                 for (int i = fcfs[0].time_to_run; i > 0; --i)
                 {
                     //Just loop through till time hits zero, doesnt really have to do anything while running
-                    //Need to add burst times for when process is on cpu and in i/o
                 }
                 
                 //For math before popped off queue

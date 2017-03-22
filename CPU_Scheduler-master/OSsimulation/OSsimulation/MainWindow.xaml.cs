@@ -32,7 +32,9 @@ namespace OSsimulation
             FCFS fcfs = new FCFS(10000);
             Stopwatch stop = new Stopwatch();
             stop.Start();
+
             fcfs.Run();
+
             stop.Stop();
             string ellapsed = stop.Elapsed.TotalSeconds.ToString();
             Text_block.Text = ellapsed;
@@ -41,6 +43,7 @@ namespace OSsimulation
             Text_block.Text = "Now for new Time";
             await Task.Delay(2000);
 
+            /*
             SPN spn = new SPN(10000);
             stop.Reset();
             stop.Start();
@@ -48,6 +51,7 @@ namespace OSsimulation
             stop.Stop();
             ellapsed = stop.Elapsed.TotalSeconds.ToString();
             Text_block.Text = ellapsed;
+            */
         }
     }
 }
