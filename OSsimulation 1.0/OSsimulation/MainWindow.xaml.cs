@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Diagnostics;
+
+namespace OSsimulation
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+
+       
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+
+        /**Button action that runs through first the FCFS algorithm
+         * Then it runs through the SPN algorithm*/
+        public async void OnClick(object sender, RoutedEventArgs e)
+        {
+            FCFS fcfs = new FCFS();
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
+            DictGen gen = new DictGen();
+            fcfs.Run(gen.makeDict(100));
+
+            stop.Stop();
+            string ellapsed = stop.Elapsed.TotalSeconds.ToString();
+            Text_block.Text = ellapsed;
+            await Task.Delay(2000);
+
+            Text_block.Text = "Now for new Time";
+            await Task.Delay(2000);
+
+            /*
+            SPN spn = new SPN(10000);
+            stop.Reset();
+            stop.Start();
+            spn.run();
+            stop.Stop();
+            ellapsed = stop.Elapsed.TotalSeconds.ToString();
+            Text_block.Text = ellapsed;
+            */
+        }
+    }
+}
