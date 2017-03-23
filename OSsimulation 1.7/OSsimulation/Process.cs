@@ -34,6 +34,7 @@ namespace OSsimulation
         public int PID = 0;
         /**Total time for the process to run*/
         public int time_to_run = 0;
+        public int time_to_run_remain;
         /** Time that the process requires on the cpu*/
         public int time_on_cpu = 0;
         /**Total time that the process will take in i/o*/
@@ -59,8 +60,8 @@ namespace OSsimulation
         public Process()
         {
             //initializing random
-            Random rand = new Random();
-
+            Random rand = new Random(DateTime.Now.Millisecond);
+            System.Threading.Thread.Sleep(5);
             //Number of bursts to add to the process, randomly generated
             int num_bursts = rand.Next(1, 8);
 
@@ -96,12 +97,12 @@ namespace OSsimulation
         public DictGen() { }
         public SortedDictionary<int, Process> makeDict(int num)
         {
+            Random rand = new Random(DateTime.Now.Millisecond);
             SortedDictionary<int, Process> the_dict = new SortedDictionary<int, Process>();
             for (int i = 1; i <= num; ++i)
             {
                 Process process = new Process();
                 process.PID = i;
-                Random rand = new Random();
                 process.time_enter_queue = rand.Next(1, 100);
                 the_dict.Add(i, process);
             }

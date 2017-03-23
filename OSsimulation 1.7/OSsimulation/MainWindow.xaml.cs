@@ -124,16 +124,17 @@ namespace OSsimulation
             SubBtn.IsEnabled = false;
 
             DictGen gen = new DictGen();
+            
+            SPN2 spn = new SPN2();
+            spn.job_dict = gen.makeDict(100);
+            spn.run();
 
-            //SPN2 spn = new SPN2();
-            //spn.run();
+            //MFQ mfq = new MFQ();
+            //mfq.distribute(gen.makeDict(100));
+            //mfq.thread_run();
 
-            MFQ mfq = new MFQ();
-            mfq.distribute(gen.makeDict(100));
-            mfq.thread_run();
-
-            FCFS fcfs = new FCFS();
-            fcfs.Run(gen.makeDict(100));
+            //FCFS fcfs = new FCFS();
+            //fcfs.Run(gen.makeDict(100));
 
             //RoundRobin RoundRob = new RoundRobin();
             //RoundRob.job_dict = gen.makeDict(100);
