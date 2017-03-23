@@ -72,7 +72,7 @@ namespace OSsimulation
                     CheckIOQueue();
                     time++;
                 }
-
+                #region
                 //We have at least one process in the queue
                 else
                 {
@@ -83,9 +83,7 @@ namespace OSsimulation
                     //How should be be handling IO?
                     if (roundr.Peek().Bursts.Count != 0)
                     {
-
-                        System.Windows.MessageBox.Show((roundr.Peek().Bursts.First().IO.ToString()));
-
+                        roundr.Peek().counter = time;
                         if (roundr.Peek().Bursts.First().IO)
                         {
                             if (roundr.Peek().first_time)
@@ -106,7 +104,7 @@ namespace OSsimulation
 
                             if (roundr.Peek().first_time)
                             {
-                                roundr.Peek().time_wait = time - roundr.Peek().time_enter_queue;
+                                roundr.Peek().time_response = time - roundr.Peek().time_enter_queue;
                                 roundr.Peek().first_time = false;
                             }
                             //Just need to pop off the burst and add that time to the global time
@@ -151,6 +149,10 @@ namespace OSsimulation
                                 } while (remain > 0);
 
                                 Process temp = roundr.Dequeue();
+                                //When it gets added back to the queue we want to add that to the wait time
+                                temp.time_wait += time - temp.counter;
+                                //Set the counter because we want the last timestamp from when it was added back on
+                                temp.counter = time;
                                 roundr.Enqueue(temp);
                             }
                         }
@@ -161,14 +163,35 @@ namespace OSsimulation
                         //Add to completed processes
                         roundr.Peek().time_to_run = time - roundr.Peek().time_enter_queue;
                         completed.Add(roundr.Dequeue());
-
+                        
                     }
                 }
-
+                #endregion
             } while (!done);
+            
+            //Variables for averageing
+            double total_service_time = time;
+            double avg_response_time = 0;
+            double avg_wait_time = 0;
+            double avg_turnaround_time = 0;
 
+            //Need some averaging on finished processes
+            for(int i = 0; i < completed.Count; i++)
+            {
+                avg_response_time += completed[i].time_response;
+                avg_turnaround_time += completed[i].time_wait;
+                avg_turnaround_time += completed[i].time_to_run;
+                avg_wait_time += completed[i].time_wait;
+            }
 
-            System.Windows.MessageBox.Show("Done");
+            avg_wait_time /= completed.Count;
+            avg_response_time /= completed.Count;
+            avg_turnaround_time /= completed.Count;
+
+            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0}",completed.Count));
+            System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
+            System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
+            System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
         }
     }
 }

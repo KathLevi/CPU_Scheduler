@@ -50,7 +50,8 @@ namespace OSsimulation
         public double time_response = 0;
         /** Wait time for given process */
         public double time_wait = 0;
-
+        //Counter to calculate total wait time, represents a timestamp
+        public double counter = 0;
 
 
         /**Constructor that assignes a random time to time_in_io and time_on_cpu
@@ -59,10 +60,6 @@ namespace OSsimulation
         {
             //initializing random
             Random rand = new Random();
-
-
-            //NEED TO SORT PROCESS IN QUEUES ON THIS 
-
 
             //Number of bursts to add to the process, randomly generated
             int num_bursts = rand.Next(1, 8);
