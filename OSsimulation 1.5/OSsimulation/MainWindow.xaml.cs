@@ -125,15 +125,16 @@ namespace OSsimulation
 
             DictGen gen = new DictGen();
 
-            //SPN2 spn = new SPN2();
-            //spn.run();
+            SPN2 spn = new SPN2();
+            spn.job_dict = gen.makeDict(15);
+            spn.run();
 
-            FCFS fcfs = new FCFS();
-            fcfs.Run(gen.makeDict(100));
+            //FCFS fcfs = new FCFS();
+            //fcfs.Run(gen.makeDict(100));
 
-            RoundRobin RoundRob = new RoundRobin();
-            RoundRob.job_dict = gen.makeDict(100);
-            RoundRob.Run(20);
+            //RoundRobin RoundRob = new RoundRobin();
+            //RoundRob.job_dict = gen.makeDict(100);
+            //RoundRob.Run(20);
         }
     }
 }

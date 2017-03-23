@@ -20,14 +20,11 @@ namespace OSsimulation
         public FCFS() { }
 
         /**Loops through the process that is first in the list till it is done*/
-        public async void Run(SortedDictionary<int, Process> fcfs)
+        public void Run(SortedDictionary<int, Process> fcfs)
         {
             //Variable for storing current CPU total runtime, essentially our clock
             int runtime_total = 0;
             
-            
-
-
             /* Loop through processes in queue starting at the back of the queue where the shortest process will be next*/
             for (int j = 0; j < fcfs.Count; j++)
             {

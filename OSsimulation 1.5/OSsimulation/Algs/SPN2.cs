@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 namespace OSsimulation
 {
     //NON PREEMPTIVE
-    public class SPN2
+    class SPN2
     {
         //Dictionary of all the jobs for this sim. Sorted on the time they will enter the queue
         public SortedDictionary<int, Process> job_dict = new SortedDictionary<int, Process>();
 
         //sortedlist of processes that can be run by the system. Get added to from job_dict upon hitting the time_enter_queue.
-        public List<Process> SPN_list = new List<Process>();
+        List<Process> SPN_list = new List<Process>();
         bool done = false;
+
 
         public SPN2() { }
 
@@ -31,13 +32,15 @@ namespace OSsimulation
                     //add the process and then remove it from the incoming jobs
                     Process temp = job_dict[time];
                     int ExecutionTime = 0;
+
                     for (int k = 0; k < temp.Bursts.Count; k++)
                     {
                         ExecutionTime += temp.Bursts.ElementAt(k).Time;
                     }
                     temp.time_to_run = ExecutionTime;
+                    SPN_list.Add(temp);
 
-                    BinarySortInsert(SPN_list, temp);
+                    SPN_list.OrderBy(o => o.time_to_run).ToList();
 
                     job_dict.Remove(time);
                 }
@@ -45,33 +48,9 @@ namespace OSsimulation
 
         }
 
-        public void BinarySortInsert(List<Process> list, Process p)
-        {
-            int i, j;
-
-            for(i = 1; i < p.time_to_run; i++)
-            {
-                Process pick = list[i];
-                int inserted = 0;
-                for(j = i - 1; j >= 0 && inserted != 1;)
-                {
-                    if(pick.time_to_run < list[j].time_to_run)
-                    {
-                        list[j + 1] = list[j];
-                        j--;
-                        list[j + 1] = pick;
-                    }
-                    else
-                    {
-                        inserted = 1;
-                    }
-                }
-            }
-        }
-
         public void run()
         {
-            //THE TIME VARIABLE IS THE GLOBAL CLOCK AND TOTAL TIME THE SYSTEM HAS BEEN ACCEPTING JOBS (TOTAL SERVICE TIME)
+           //THE TIME VARIABLE IS THE GLOBAL CLOCK AND TOTAL TIME THE SYSTEM HAS BEEN ACCEPTING JOBS (TOTAL SERVICE TIME)
             int time = 0;
 
             do
@@ -89,13 +68,10 @@ namespace OSsimulation
                 //Some process in the list to run
                 else
                 {
-                  
-
-
+                    AddProcessToQueue(time);
+                    time++;
                 }
-
-
-
+                
             } while (!done);
         }
     }

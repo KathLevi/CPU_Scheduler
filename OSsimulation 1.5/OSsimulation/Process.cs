@@ -27,6 +27,7 @@ namespace OSsimulation
     }
     class Process
     {
+        
         /**List of Bursts */
         public Queue<Burst> Bursts = new Queue<Burst>();
         //Do we need these?
@@ -53,24 +54,21 @@ namespace OSsimulation
         //Counter to calculate total wait time, represents a timestamp
         public double counter = 0;
 
-
         /**Constructor that assignes a random time to time_in_io and time_on_cpu
          * Then sets time_to_turn to the sum of those two values*/
         public Process()
         {
-            //initializing random
-            Random rand = new Random();
-
+            System.Threading.Thread.Sleep(5);
+            Random rand = new Random(DateTime.Now.Millisecond);
             //Number of bursts to add to the process, randomly generated
-            int num_bursts = rand.Next(1, 8);
+            int num_bursts = rand.Next(1, 10);
 
             bool addIO = false;
             //Create and add bursts 
             for (int i = 0; i < num_bursts; i++)
             {
                 //randomized burst time
-                int burst_time = rand.Next(1, 6);
-
+                int burst_time = rand.Next(1, 100);
 
                 //Flip a coin to see if the burst will be IO or not, if it is two then it will be IO
                 if (addIO)
@@ -96,12 +94,12 @@ namespace OSsimulation
         public DictGen() { }
         public SortedDictionary<int, Process> makeDict(int num)
         {
+            Random rand = new Random(DateTime.Now.Millisecond);
             SortedDictionary<int, Process> the_dict = new SortedDictionary<int, Process>();
             for (int i = 1; i <= num; ++i)
             {
                 Process process = new Process();
                 process.PID = i;
-                Random rand = new Random();
                 process.time_enter_queue = rand.Next(1, 100);
                 the_dict.Add(i, process);
             }
@@ -109,4 +107,5 @@ namespace OSsimulation
             return the_dict;
         }
     }
+    
 }
