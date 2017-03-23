@@ -103,38 +103,12 @@ namespace OSsimulation
         {
             try
             {
-                my_book.Save();
-                my_book.Close();
+                my_book.Close(true);
+                
             }
             finally
             {
                 if (my_excel != null) { my_excel.Quit(); }
-            }
-        }
-
-        public static void SendTest(string sim_type, double turnaround, double wait, double response,double service)
-        {
-            try
-            {
-                string ConnectionPath = "Provider=sqloledb; Data Source = CS1; Initial Catalog = SIM_DB; Integrated Security = SSPI;";
-                OleDbConnection MyConnection = new OleDbConnection(ConnectionPath);
-                MyConnection.Open();
-                string Command = "INSERT INTO Simulation (ALG_type, AVG_Turnaround, AVG_Response, AVG_Wait, ServiceTime) VALUES (@Alg_Type, @AVG_Turnaround, @AVG_Response, @AVG_Wait, @ServiceTime);";
-                OleDbTransaction trans = MyConnection.BeginTransaction();
-                OleDbCommand cmd = new OleDbCommand(Command, MyConnection, trans);
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@ALG_type",sim_type);
-                cmd.Parameters.AddWithValue("@AVG_Turnaround", turnaround);
-                cmd.Parameters.AddWithValue("@AVG_Response", response);
-                cmd.Parameters.AddWithValue("@AVG_Wait", wait);
-                cmd.Parameters.AddWithValue("@ServiceTime", service);
-                cmd.ExecuteNonQuery();
-                trans.Commit();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("Oops error: " + ex.Message + ex.StackTrace);
             }
         }
 

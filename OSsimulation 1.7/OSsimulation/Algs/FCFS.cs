@@ -93,18 +93,22 @@ namespace OSsimulation
                 avg_response_time += fcfs.ElementAt(i).Value.time_response;
                 avg_turnaround_time += fcfs.ElementAt(i).Value.time_turnaround;
                 avg_wait_time += fcfs.ElementAt(i).Value.time_wait;
-            }
+                RecordKeeping.UpdateExcel_FCFS(fcfs.ElementAt(i).Value.PID, fcfs.ElementAt(i).Value.time_to_run, fcfs.ElementAt(i).Value.time_turnaround, 
+                    fcfs.ElementAt(i).Value.time_wait, fcfs.ElementAt(i).Value.time_response
+                    , 0, 100, 0);
+        }
             
             avg_wait_time /= fcfs.Count;
             avg_response_time /= fcfs.Count;
             avg_turnaround_time /= fcfs.Count;
 
-            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles", fcfs.Count, total_service_time));
-            System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
-            System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
-            System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
-            System.Windows.MessageBox.Show(string.Format("CPU Utilization is: {0}%", cpu_util));
-            System.Windows.MessageBox.Show(string.Format("Average Context Switch Time: 0ms because nothing ever switches"));
+            //System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles", fcfs.Count, total_service_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
+            //System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
+            //System.Windows.MessageBox.Show(string.Format("CPU Utilization is: {0}%", cpu_util));
+            //System.Windows.MessageBox.Show(string.Format("Average Context Switch Time: 0ms because nothing ever switches"));
+            
         }
 
     }

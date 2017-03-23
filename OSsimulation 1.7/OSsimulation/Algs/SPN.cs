@@ -6,46 +6,18 @@ using System.Threading.Tasks;
 
 namespace OSsimulation
 {
+    //NON PREEMPTIVE
     class SPN
     {
-        /**List that holds all the processes*/
-        List<Process> shortest_process_next = new List<Process>();
+        //Dictionary of all the jobs for this sim. Sorted on the time they will enter the queue
         public SortedDictionary<int, Process> job_dict = new SortedDictionary<int, Process>();
 
-        /**Constructor that creates processes and adds them to the List
-         * \param num: number of process to add to the List*/
-        public SPN(int num)
-        {
+        //sortedlist of processes that can be run by the system. Get added to from job_dict upon hitting the time_enter_queue.
+        List<Process> list = new List<Process>();
+        List<Process> completed = new List<Process>();
+        bool done = false;
 
-            for (int j = 0; j < job_dict.Count; ++j)
-            {
-                Process process = new Process();
-
-                /*Make sure that the List isnt empty*/
-                if (shortest_process_next.Count() == 0)
-                {
-                    shortest_process_next.Add(process);
-                }
-                else
-                {
-                    /*Check if the new process has less time than the process and if it does then insert there*/
-                    for (int i = shortest_process_next.Count() - 1; i > -1; --i)
-                    {
-                        if (process.time_to_run < shortest_process_next[i].time_to_run)
-                        {
-                            shortest_process_next.Insert(i, process);
-                            break;
-                        }
-                        else if (i == shortest_process_next.Count - 1)
-                        {
-                            shortest_process_next.Add(process);
-                            break;
-                        }
-                    }
-                }
-            }
-
-        }
+        public SPN() { }
 
         public void AddProcessToQueue(int time)
         {
@@ -58,26 +30,117 @@ namespace OSsimulation
                 if (time == timeofnextprocess)
                 {
                     //add the process and then remove it from the incoming jobs
-                    shortest_process_next.Add(job_dict.ElementAt(time).Value);
+                    Process temp = job_dict[time];
+                    int ExecutionTime = 0;
+                    for (int k = 0; k < temp.Bursts.Count; k++)
+                    {
+                        ExecutionTime += temp.Bursts.ElementAt(k).Time;
+                    }
+                    temp.time_to_run = ExecutionTime;
+
+                    list.Add(temp);
+
                     job_dict.Remove(time);
                 }
             }
+
         }
 
-        /**Runs through the processes in the queue
-         * Randomly decides when the process has to go into i/o or cpu*/
+
         public void run()
         {
-            //Loop through List starting at back where shortest process will be next;
-            for (int j = shortest_process_next.Count(); j > 0; --j)
+            //THE TIME VARIABLE IS THE GLOBAL CLOCK AND TOTAL TIME THE SYSTEM HAS BEEN ACCEPTING JOBS (TOTAL SERVICE TIME)
+            int time = 0;
+            int time_in_io = 0;
+            int time_on_cpu = 0;
+
+
+            do
             {
-                for (int i = shortest_process_next[0].time_to_run; i > 0; --i)
+                if(list.Any() == false && job_dict.Any() == false)
                 {
-                    //just loop till its done cause no interrupts happen with this algorithm.
-                    //Need to add burst times for cpu and i/o
+                    done = true;
                 }
-                shortest_process_next.RemoveAt(0);
+
+                if(list.Count == 0)
+                {
+                    AddProcessToQueue(time);
+                    time++;
+                }
+                //Some process in the list to run
+                else
+                {
+                    list.OrderBy(i => i.time_to_run);
+                    //Look at all processes and compare their time_to_run/time_to_run_remaining
+                    if(list.First().Bursts.Count != 0)
+                    {
+                        
+                        if (list.First().first_time)
+                        {
+                            list.First().time_response = time - list.First().time_enter_queue;
+                            list.First().time_wait = time - list.First().time_enter_queue;
+                            list.First().time_turnaround = list.First().time_to_run;
+                            list.First().first_time = false;
+                        }
+
+                        for(int k = 0; k < list.First().Bursts.Count; k++)
+                        {
+                            if (list.First().Bursts.First().IO)
+                            {
+                                for (int j = 0; j < list.First().Bursts.First().Time; j++)
+                                {
+                                    AddProcessToQueue(time);
+                                    time_in_io++;
+                                    time++;
+                                }
+                                list.First().Bursts.Dequeue();
+                            }
+                            else
+                            {
+                                for (int j = 0; j < list.First().Bursts.First().Time; j++)
+                                {
+                                    time_on_cpu++;
+                                    AddProcessToQueue(time);
+                                    time++;
+                                }
+                                list.First().Bursts.Dequeue();
+                            }
+                        }
+                        
+                        completed.Add(list.First());
+                        list.RemoveAt(0);
+                    }
+                                        
+                }
+                
+            } while (!done);
+
+            //Variables for averageing
+            double total_service_time = time;
+            double avg_response_time = 0;
+            double avg_wait_time = 0;
+            double avg_turnaround_time = 0;
+            double cpu_util = ((double)time_on_cpu / total_service_time) * 100;
+
+            for (int i = 0; i < completed.Count; i++)
+            {
+                avg_response_time += completed[i].time_response;
+                avg_turnaround_time += completed[i].time_turnaround;
+                avg_wait_time += completed[i].time_wait;
+                RecordKeeping.UpdateExcel_SPN(completed[i].PID, completed[i].time_to_run, completed[i].time_turnaround, completed[i].time_wait,
+                    completed[i].time_response, 0, 100, 0);
             }
+
+            avg_response_time /= completed.Count;
+            avg_turnaround_time /= completed.Count;
+            avg_wait_time /= completed.Count;
+
+            //System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles", completed.Count, total_service_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
+            //System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
+            //System.Windows.MessageBox.Show(string.Format("CPU Utilization is: {0}%", cpu_util));
+            
         }
     }
 }

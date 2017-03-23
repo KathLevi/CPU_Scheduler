@@ -187,6 +187,8 @@ namespace OSsimulation
                 avg_turnaround_time += completed[i].time_to_run;
                 avg_wait_time += completed[i].time_wait;
                 avg_context_time += completed[i].context_switch_time;
+                RecordKeeping.UpdateExcel_RR(completed[i].PID, completed[i].time_to_run, completed[i].time_turnaround, completed[i].time_wait
+                    , completed[i].time_response, completed[i].context_switch_time, 0, 0);
             }
             avg_context_time /= completed.Count;
             avg_wait_time /= completed.Count;
@@ -194,12 +196,13 @@ namespace OSsimulation
             avg_turnaround_time /= completed.Count;
 
 
-            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles at 1ms a cycle",completed.Count,total_service_time));
-            System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
-            System.Windows.MessageBox.Show(string.Format("Average TT: {0}ms", avg_turnaround_time));
-            System.Windows.MessageBox.Show(string.Format("Average Response: {0}ms", avg_response_time));
-            System.Windows.MessageBox.Show(string.Format("CPU Utilization is: 100%"));
-            System.Windows.MessageBox.Show(string.Format("Average Context Switch Time: {0}ms", avg_context_time));
+            //System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles at 1ms a cycle",completed.Count,total_service_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
+            //System.Windows.MessageBox.Show(string.Format("Average TT: {0}ms", avg_turnaround_time));
+            //System.Windows.MessageBox.Show(string.Format("Average Response: {0}ms", avg_response_time));
+            //System.Windows.MessageBox.Show(string.Format("CPU Utilization is: 100%"));
+            //System.Windows.MessageBox.Show(string.Format("Average Context Switch Time: {0}ms", avg_context_time));
+            
         }
     }
 }
