@@ -34,7 +34,6 @@ namespace OSsimulation
         public int PID = 0;
         /**Total time for the process to run*/
         public int time_to_run = 0;
-        public int time_to_run_remain;
         /** Time that the process requires on the cpu*/
         public int time_on_cpu = 0;
         /**Total time that the process will take in i/o*/
@@ -53,7 +52,7 @@ namespace OSsimulation
         public double time_wait = 0;
         //Counter to calculate total wait time, represents a timestamp
         public double counter = 0;
-
+        public int context_switch_time = 0;
 
         /**Constructor that assignes a random time to time_in_io and time_on_cpu
          * Then sets time_to_turn to the sum of those two values*/
@@ -104,7 +103,12 @@ namespace OSsimulation
                 Process process = new Process();
                 process.PID = i;
                 process.time_enter_queue = rand.Next(1, 100);
-                the_dict.Add(i, process);
+
+                while (the_dict.ContainsKey(process.time_enter_queue))
+                {
+                    process.time_enter_queue++;
+                }
+                the_dict.Add(process.time_enter_queue, process);
             }
 
             return the_dict;

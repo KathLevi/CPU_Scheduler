@@ -54,7 +54,7 @@ namespace OSsimulation
         {
             //THE TIME VARIABLE IS THE GLOBAL CLOCK AND TOTAL TIME THE SYSTEM HAS BEEN ACCEPTING JOBS (TOTAL SERVICE TIME)
             int time = 0;
-
+            
             do
             {
 
@@ -94,8 +94,9 @@ namespace OSsimulation
                             //Pops off top and adds to bottom of IO queue
                             Process temp = roundr.Dequeue();
                             temp.time_in_io += temp.Bursts.First().Time;
+                            temp.context_switch_time += 3;
                             IO.Enqueue(temp);
-
+                            
                         }
 
                         //CPU Burst Handling
@@ -137,7 +138,7 @@ namespace OSsimulation
                                             remain--;
                                             time++;
                                         }
-
+                                        
                                         roundr.Peek().Bursts.Dequeue();
                                     }
                                     else
@@ -153,7 +154,9 @@ namespace OSsimulation
                                 temp.time_wait += time - temp.counter;
                                 //Set the counter because we want the last timestamp from when it was added back on
                                 temp.counter = time;
+                                temp.context_switch_time += 3;
                                 roundr.Enqueue(temp);
+                                
                             }
                         }
 
@@ -162,6 +165,7 @@ namespace OSsimulation
                     {
                         //Add to completed processes
                         roundr.Peek().time_to_run = time - roundr.Peek().time_enter_queue;
+                        roundr.Peek().context_switch_time += 3;
                         completed.Add(roundr.Dequeue());
                         
                     }
@@ -174,25 +178,28 @@ namespace OSsimulation
             double avg_response_time = 0;
             double avg_wait_time = 0;
             double avg_turnaround_time = 0;
-
+            double avg_context_time = 0;
             //Need some averaging on finished processes
-            for(int i = 0; i < completed.Count; i++)
+            for (int i = 0; i < completed.Count; i++)
             {
                 avg_response_time += completed[i].time_response;
                 avg_turnaround_time += completed[i].time_wait;
                 avg_turnaround_time += completed[i].time_to_run;
                 avg_wait_time += completed[i].time_wait;
+                avg_context_time += completed[i].context_switch_time;
             }
-
+            avg_context_time /= completed.Count;
             avg_wait_time /= completed.Count;
             avg_response_time /= completed.Count;
             avg_turnaround_time /= completed.Count;
 
 
-            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles",completed.Count,total_service_time));
+            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles at 1ms a cycle",completed.Count,total_service_time));
             System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
-            System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
-            System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
+            System.Windows.MessageBox.Show(string.Format("Average TT: {0}ms", avg_turnaround_time));
+            System.Windows.MessageBox.Show(string.Format("Average Response: {0}ms", avg_response_time));
+            System.Windows.MessageBox.Show(string.Format("CPU Utilization is: 100%"));
+            System.Windows.MessageBox.Show(string.Format("Average Context Switch Time: {0}ms", avg_context_time));
         }
     }
 }

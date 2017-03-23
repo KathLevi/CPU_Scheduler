@@ -70,7 +70,7 @@ namespace OSsimulation
                 //Some process in the list to run
                 else
                 {
-                    list.OrderByDescending(i => i.time_to_run_remain);
+                    list.OrderBy(i => i.time_to_run);
                     //Look at all processes and compare their time_to_run/time_to_run_remaining
                     if(list.First().Bursts.Count != 0)
                     {
@@ -120,6 +120,7 @@ namespace OSsimulation
             double avg_response_time = 0;
             double avg_wait_time = 0;
             double avg_turnaround_time = 0;
+            double cpu_util = ((double)time_on_cpu / total_service_time) * 100;
 
             for (int i = 0; i < completed.Count; i++)
             {
@@ -136,7 +137,7 @@ namespace OSsimulation
             System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
             System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
             System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));
-
+            System.Windows.MessageBox.Show(string.Format("CPU Utilization is: {0}%", cpu_util));
         }
     }
 }

@@ -133,12 +133,12 @@ namespace OSsimulation
             //mfq.distribute(gen.makeDict(100));
             //mfq.thread_run();
 
-            //FCFS fcfs = new FCFS();
-            //fcfs.Run(gen.makeDict(100));
+            FCFS fcfs = new FCFS();
+            fcfs.Run(gen.makeDict(100));
 
-            //RoundRobin RoundRob = new RoundRobin();
-            //RoundRob.job_dict = gen.makeDict(100);
-            //RoundRob.Run(20);
+            RoundRobin RoundRob = new RoundRobin();
+            RoundRob.job_dict = gen.makeDict(100);
+            RoundRob.Run(20);
         }
     }
 }
