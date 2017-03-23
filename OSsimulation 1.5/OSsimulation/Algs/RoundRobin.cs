@@ -188,7 +188,8 @@ namespace OSsimulation
             avg_response_time /= completed.Count;
             avg_turnaround_time /= completed.Count;
 
-            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0}",completed.Count));
+
+            System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles",completed.Count,total_service_time));
             System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
             System.Windows.MessageBox.Show(string.Format("Average TT: {0}", avg_turnaround_time));
             System.Windows.MessageBox.Show(string.Format("Average Response: {0}", avg_response_time));

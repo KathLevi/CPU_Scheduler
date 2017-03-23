@@ -125,8 +125,11 @@ namespace OSsimulation
 
             DictGen gen = new DictGen();
 
-            //FCFS fcfs = new FCFS();
-            //fcfs.Run(gen.makeDict(100));
+            //SPN2 spn = new SPN2();
+            //spn.run();
+
+            FCFS fcfs = new FCFS();
+            fcfs.Run(gen.makeDict(100));
 
             RoundRobin RoundRob = new RoundRobin();
             RoundRob.job_dict = gen.makeDict(100);

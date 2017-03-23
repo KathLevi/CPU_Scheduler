@@ -17,7 +17,7 @@ namespace OSsimulation
         public SPN(int num)
         {
 
-            for (int j = 0; j < num; ++j)
+            for (int j = 0; j < job_dict.Count; ++j)
             {
                 Process process = new Process();
 

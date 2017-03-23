@@ -62,6 +62,7 @@
     <Compile Include="Algs\MFQ.cs" />
     <Compile Include="Algs\RoundRobin.cs" />
     <Compile Include="Algs\SPN.cs" />
+    <Compile Include="Algs\SPN2.cs" />
     <Compile Include="Algs\SRT.cs" />
     <Compile Include="RecordKeeping.cs" />
     <Page Include="MainWindow.xaml">
