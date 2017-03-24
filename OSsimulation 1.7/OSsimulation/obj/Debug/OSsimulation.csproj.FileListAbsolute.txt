@@ -194,3 +194,7 @@ C:\Users\agazeley18\Source\Repos\CPU_Scheduler\OSsimulation 1.7\OSsimulation\obj
 C:\Users\agazeley18\Source\Repos\CPU_Scheduler\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.g.resources
 C:\Users\agazeley18\Source\Repos\CPU_Scheduler\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.Properties.Resources.resources
 C:\Users\agazeley18\Source\Repos\CPU_Scheduler\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.csproj.GenerateResource.Cache
+C:\Users\jthomas17\Desktop\OSsimulation 1.7\OSsimulation\bin\Debug\OSsimulation.exe.config
+C:\Users\jthomas17\Desktop\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.csproj.ResolveComReference.cache
+C:\Users\jthomas17\Desktop\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.exe
+C:\Users\jthomas17\Desktop\OSsimulation 1.7\OSsimulation\obj\Debug\OSsimulation.pdb
