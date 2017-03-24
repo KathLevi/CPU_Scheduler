@@ -78,7 +78,7 @@ namespace OSsimulation
                runs as fcfs for all queues*/
         void run(Queue<Process> thread_queue)
         {
-            int cpu_utilization = 0;
+            double cpu_utilization = 0;
             int runtime_total = 0;
             //goes through every process in the queue that this thread is running
             for (int i = 0; i < thread_queue.Count; ++i)

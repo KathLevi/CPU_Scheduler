@@ -26,6 +26,7 @@ namespace OSsimulation
             int runtime_total = 0;
             int IO_time = 0;
             int CPU_time = 0;
+            double cpu_utilization = 0;
 
             /* Loop through processes in queue starting at the back of the queue where the shortest process will be next*/
             for (int j = 0; j < fcfs.Count; j++)
@@ -93,14 +94,17 @@ namespace OSsimulation
                 avg_response_time += fcfs.ElementAt(i).Value.time_response;
                 avg_turnaround_time += fcfs.ElementAt(i).Value.time_turnaround;
                 avg_wait_time += fcfs.ElementAt(i).Value.time_wait;
+                cpu_utilization = fcfs.ElementAt(i).Value.time_on_cpu / fcfs[i].time_to_run;
                 RecordKeeping.UpdateExcel_FCFS(fcfs.ElementAt(i).Value.PID, fcfs.ElementAt(i).Value.time_to_run, fcfs.ElementAt(i).Value.time_turnaround, 
                     fcfs.ElementAt(i).Value.time_wait, fcfs.ElementAt(i).Value.time_response
-                    , 0, 100, 0);
+                    , 0, cpu_utilization, 0);
         }
             
             avg_wait_time /= fcfs.Count;
             avg_response_time /= fcfs.Count;
             avg_turnaround_time /= fcfs.Count;
+
+
 
             //System.Windows.MessageBox.Show(string.Format("Jobs Completed: {0} in {1} cycles", fcfs.Count, total_service_time));
             //System.Windows.MessageBox.Show(string.Format("Average Wait: {0}", avg_wait_time));
