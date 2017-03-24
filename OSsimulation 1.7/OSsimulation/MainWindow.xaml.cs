@@ -74,9 +74,9 @@ namespace OSsimulation
             spn.job_dict = gen.makeDict(num);
             spn.run();
 
-            //MFQ mfq = new MFQ();
-            //mfq.distribute(gen.makeDict(100));
-            //mfq.thread_run();
+            MFQ mfq = new MFQ();
+            mfq.distribute(gen.makeDict(100));
+            mfq.thread_run();
 
             FCFS fcfs = new FCFS();
             fcfs.Run(gen.makeDict(num));

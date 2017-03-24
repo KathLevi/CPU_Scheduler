@@ -31,6 +31,10 @@ namespace OSsimulation
             /* Loop through processes in queue starting at the back of the queue where the shortest process will be next*/
             for (int j = 0; j < fcfs.Count; j++)
             {
+                for (int k = 0; k < fcfs.ElementAt(j).Value.Bursts.Count; k++)
+                {
+                    fcfs.ElementAt(j).Value.time_to_run += fcfs.ElementAt(j).Value.Bursts.ElementAt(k).Time;
+                }
                 fcfs.ElementAt(j).Value.time_wait = runtime_total;
                 fcfs.ElementAt(j).Value.time_response = runtime_total;
                 //Burst iteration region
@@ -94,7 +98,7 @@ namespace OSsimulation
                 avg_response_time += fcfs.ElementAt(i).Value.time_response;
                 avg_turnaround_time += fcfs.ElementAt(i).Value.time_turnaround;
                 avg_wait_time += fcfs.ElementAt(i).Value.time_wait;
-                cpu_utilization = fcfs.ElementAt(i).Value.time_on_cpu / fcfs[i].time_to_run;
+                cpu_utilization = fcfs.ElementAt(i).Value.time_on_cpu / fcfs.ElementAt(i).Value.time_to_run;
                 RecordKeeping.UpdateExcel_FCFS(fcfs.ElementAt(i).Value.PID, fcfs.ElementAt(i).Value.time_to_run, fcfs.ElementAt(i).Value.time_turnaround, 
                     fcfs.ElementAt(i).Value.time_wait, fcfs.ElementAt(i).Value.time_response
                     , 0, cpu_utilization, 0);

@@ -29,26 +29,29 @@ namespace OSsimulation
         {
             for (int i = sorted_dict.Count; i > 0; --i)
             {
-                /*Starting with i % 4 so that it will recieve values as well*/
-                if (i % 4 == 0)
+                if (sorted_dict.ContainsKey(i))
                 {
-                    queue1.Enqueue(sorted_dict[i]);
-                    sorted_dict[i].time_enter_queue = i;
-                }
-                else if (i % 3 == 0)
-                {
-                    queue2.Enqueue(sorted_dict[i]);
-                    sorted_dict[i].time_enter_queue = i;
-                }
-                else if (i % 2 == 0)
-                {
-                    queue3.Enqueue(sorted_dict[i]);
-                    sorted_dict[i].time_enter_queue = i;
-                }
-                else
-                {
-                    queue0.Enqueue(sorted_dict[i]);
-                    sorted_dict[i].time_enter_queue = i;
+                    /*Starting with i % 4 so that it will recieve values as well*/
+                    if (i % 4 == 0)
+                    {
+                        queue1.Enqueue(sorted_dict[i]);
+                        sorted_dict[i].time_enter_queue = i;
+                    }
+                    else if (i % 3 == 0)
+                    {
+                        queue2.Enqueue(sorted_dict[i]);
+                        sorted_dict[i].time_enter_queue = i;
+                    }
+                    else if (i % 2 == 0)
+                    {
+                        queue3.Enqueue(sorted_dict[i]);
+                        sorted_dict[i].time_enter_queue = i;
+                    }
+                    else
+                    {
+                        queue0.Enqueue(sorted_dict[i]);
+                        sorted_dict[i].time_enter_queue = i;
+                    }
                 }
             }
             System.Windows.MessageBox.Show("Split all values");
@@ -71,6 +74,16 @@ namespace OSsimulation
             thread1.Join();
             thread2.Join();
             thread3.Join();
+            double cpu_utilization = 0;
+            for (int i = 0; i < completed.Count; ++i)
+            {
+                if (completed[i].time_to_run == 0) { }
+                //System.Windows.MessageBox.Show("it is zero!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                else { cpu_utilization = completed[i].time_on_cpu / completed[i].time_to_run; }
+                RecordKeeping.UpdateExcel_MFQ(completed[i].PID, completed[i].time_to_run,
+                completed[i].time_turnaround, completed[i].time_wait, completed[i].time_response,
+                0, cpu_utilization, 0);
+            }
         }
 
         /**Function that runs through the queue, each thread runs this.
@@ -85,18 +98,23 @@ namespace OSsimulation
             {
                 thread_queue.Peek().time_wait = runtime_total;
                 thread_queue.Peek().time_response = runtime_total;
-
+                //for (int k = 0; k < thread_queue.Peek().Bursts.Count; k++)
+                //{
+                //    thread_queue.ElementAt(i).time_to_run += thread_queue.ElementAt(i).Bursts.ElementAt(k).Time;
+                //}
                 while (thread_queue.Peek().Bursts.Any())
                 {
                     //IO burst
                     if (thread_queue.Peek().Bursts.Peek().IO)
                     {
+                        thread_queue.Peek().time_to_run += thread_queue.Peek().Bursts.Peek().Time;
                         thread_queue.Peek().time_in_io += thread_queue.Peek().Bursts.Peek().Time;
                         thread_queue.Peek().Bursts.Dequeue();
                     }
                     //cpu burst
                     else
                     {
+                        thread_queue.Peek().time_to_run += thread_queue.Peek().Bursts.Peek().Time;
                         thread_queue.Peek().time_on_cpu += thread_queue.Peek().Bursts.Peek().Time;
 
                         if (i == 0)
@@ -118,41 +136,16 @@ namespace OSsimulation
                 runtime_total += thread_queue.Peek().time_in_io;
                 //sets turnaround time to total time the cpu has been running minus the time the process waited
                 thread_queue.Peek().time_turnaround = runtime_total - thread_queue.Peek().time_wait;
-            }
-
-            double total_service_time = runtime_total;
-            double avg_response_time = 0;
-            double avg_wait_time = 0;
-            double avg_turnaround_time = 0;
-
-            for (int i = 0; i < thread_queue.Count; ++i)
-            {
-                avg_response_time += thread_queue.Peek().time_response;
-                avg_turnaround_time += thread_queue.Peek().time_turnaround;
-                avg_wait_time += thread_queue.Peek().time_wait;
-            }
-
-            avg_wait_time /= thread_queue.Count;
-            avg_response_time /= thread_queue.Count;
-            avg_turnaround_time /= thread_queue.Count;
-            cpu_utilization = (thread_queue.Peek().time_on_cpu) / (thread_queue.Peek().time_to_run);
-            mutex.WaitOne();
-            try
-            {
-                RecordKeeping.UpdateExcel_MFQ(thread_queue.Peek().PID, thread_queue.Peek().time_to_run,
-                thread_queue.Peek().time_turnaround, thread_queue.Peek().time_wait, thread_queue.Peek().time_response,
-                0, cpu_utilization, 0);
-                while (thread_queue.Count != 0)
+                mutex.WaitOne();
+                try
                 {
                     completed.Add(thread_queue.Dequeue());
                 }
-                System.Windows.MessageBox.Show(completed.Count.ToString());
+                finally
+                {
+                    mutex.ReleaseMutex();
+                }
             }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
-
         }
     }
 }

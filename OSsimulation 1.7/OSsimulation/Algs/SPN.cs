@@ -127,8 +127,9 @@ namespace OSsimulation
                 avg_response_time += completed[i].time_response;
                 avg_turnaround_time += completed[i].time_turnaround;
                 avg_wait_time += completed[i].time_wait;
+                double cpu_utilization = completed[i].time_on_cpu / completed[i].time_to_run;
                 RecordKeeping.UpdateExcel_SPN(completed[i].PID, completed[i].time_to_run, completed[i].time_turnaround, completed[i].time_wait,
-                    completed[i].time_response, 0, 100, 0);
+                    completed[i].time_response, 0, cpu_utilization, 0);
             }
 
             avg_response_time /= completed.Count;
