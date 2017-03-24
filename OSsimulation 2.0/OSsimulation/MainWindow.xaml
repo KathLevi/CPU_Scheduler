@@ -1,0 +1,81 @@
+﻿<Window x:Class="OSsimulation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OSsimulation"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="800">
+    <Grid Margin="0,-27,-8,-2" RenderTransformOrigin="0.192,1.011">
+
+        <Button x:Name="AddBtn" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" Margin="28,231,0,0" RenderTransformOrigin="-2.279,1.36" FontSize="16" FontWeight="Bold" Click="AddBtn_Click"/>
+        <Button x:Name="SubBtn" Content="-" HorizontalAlignment="Left" Margin="128,231,0,0" VerticalAlignment="Top" Width="28" FontSize="16" FontWeight="Bold" Click="SubBtn_Click"/>
+        <TextBlock x:Name="ProcessLb" HorizontalAlignment="Left" Margin="24,205,0,0" TextWrapping="Wrap" Text="Num of Processes" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <TextBox x:Name="NumTxt" HorizontalAlignment="Left" Height="23" Margin="65,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" Text="100" FontSize="16" IsEnabled="False" TextAlignment="Center"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="526" VerticalAlignment="Top" Width="188" Margin="0,-12,0,-14.333" IsEnabled="False"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="49" Margin="198,145,0,0" TextWrapping="Wrap" Text="All values listed in the TABLE below are averages for each individual algorithm and the averages above are the overall averages of all 5 algorithms." VerticalAlignment="Top" Width="582" TextAlignment="Center" FontSize="15" FontWeight="Bold"/>
+        <Button x:Name="RunBtn" Content="Run" HorizontalAlignment="Left" Margin="37,83,0,0" VerticalAlignment="Top" Width="108" Height="57" FontWeight="Bold" Click="RunBtn_Click"/>
+        <Label x:Name="label" Content="Total Time" HorizontalAlignment="Left" Margin="188,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy" Content="Turnaround" HorizontalAlignment="Left" Margin="268,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy1" Content="Wait" HorizontalAlignment="Left" Margin="358,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy2" Content="Response" HorizontalAlignment="Left" Margin="408,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy3" Content="Speed Up" HorizontalAlignment="Left" Margin="712,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy4" Content="Processor Util" HorizontalAlignment="Left" Margin="606,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy5" Content="Context Switch" HorizontalAlignment="Left" Margin="490,63,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy6" Content="TT" HorizontalAlignment="Left" Margin="282,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy7" Content="TA" HorizontalAlignment="Left" Margin="328,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy8" Content="Wait" HorizontalAlignment="Left" Margin="366,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy9" Content="Response" HorizontalAlignment="Left" Margin="420,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy10" Content="Speed Up" HorizontalAlignment="Left" Margin="718,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy11" Content="Processor Util" HorizontalAlignment="Left" Margin="616,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy12" Content="Context Switch" HorizontalAlignment="Left" Margin="502,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="label_Copy13" Content="Algorithm" HorizontalAlignment="Left" Margin="192,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="tt" Content="0" HorizontalAlignment="Left" Margin="213,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ta" Content="0" HorizontalAlignment="Left" Margin="285,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="su" Content="0" HorizontalAlignment="Left" Margin="729,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="pu" Content="0" HorizontalAlignment="Left" Margin="639,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="cs" Content="0" HorizontalAlignment="Left" Margin="525,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="resp" Content="0" HorizontalAlignment="Left" Margin="427,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="wait" Content="0" HorizontalAlignment="Left" Margin="359,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_tt" Content="0" HorizontalAlignment="Left" Margin="277,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_ta" Content="0" HorizontalAlignment="Left" Margin="321,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_su" Content="0" HorizontalAlignment="Left" Margin="741,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_pu" Content="0" HorizontalAlignment="Left" Margin="653,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_cs" Content="0" HorizontalAlignment="Left" Margin="535,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_resp" Content="0" HorizontalAlignment="Left" Margin="437,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rr_wait" Content="0" HorizontalAlignment="Left" Margin="367,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy13" Content="RR" HorizontalAlignment="Left" Margin="215,247,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_tt" Content="0" HorizontalAlignment="Left" Margin="277,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_ta" Content="0" HorizontalAlignment="Left" Margin="321,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_su" Content="0" HorizontalAlignment="Left" Margin="741,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_pu" Content="0" HorizontalAlignment="Left" Margin="653,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_cs" Content="0" HorizontalAlignment="Left" Margin="535,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_resp" Content="0" HorizontalAlignment="Left" Margin="437,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fcfs_wait" Content="0" HorizontalAlignment="Left" Margin="367,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy21" Content="FCFS" HorizontalAlignment="Left" Margin="215,287,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_tt" Content="0" HorizontalAlignment="Left" Margin="277,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_ta" Content="0" HorizontalAlignment="Left" Margin="321,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_su" Content="0" HorizontalAlignment="Left" Margin="741,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_pu" Content="0" HorizontalAlignment="Left" Margin="653,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_cs" Content="0" HorizontalAlignment="Left" Margin="535,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_resp" Content="0" HorizontalAlignment="Left" Margin="437,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="srt_wait" Content="0" HorizontalAlignment="Left" Margin="367,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy29" Content="SRT" HorizontalAlignment="Left" Margin="215,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_tt" Content="0" HorizontalAlignment="Left" Margin="277,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_ta" Content="0" HorizontalAlignment="Left" Margin="321,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_su" Content="0" HorizontalAlignment="Left" Margin="741,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_pu" Content="0" HorizontalAlignment="Left" Margin="653,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_cs" Content="0" HorizontalAlignment="Left" Margin="535,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_resp" Content="0" HorizontalAlignment="Left" Margin="437,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="spn_wait" Content="0" HorizontalAlignment="Left" Margin="367,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy37" Content="SPN" HorizontalAlignment="Left" Margin="215,393,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_tt" Content="0" HorizontalAlignment="Left" Margin="277,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_ta" Content="0" HorizontalAlignment="Left" Margin="321,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_su" Content="0" HorizontalAlignment="Left" Margin="741,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_pu" Content="0" HorizontalAlignment="Left" Margin="653,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_cs" Content="0" HorizontalAlignment="Left" Margin="535,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_resp" Content="0" HorizontalAlignment="Left" Margin="437,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="mfq_wait" Content="0" HorizontalAlignment="Left" Margin="367,437,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy45" Content="MFQ" HorizontalAlignment="Left" Margin="215,437,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
