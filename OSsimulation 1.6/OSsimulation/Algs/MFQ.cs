@@ -10,11 +10,15 @@ namespace OSsimulation
     //Multiple Feedback Queue
     class MFQ
     {
+        Mutex mutex = new Mutex();
         /**Queues that will get values from the main process dictionary*/
         Queue<Process> queue0 = new Queue<Process>();
         Queue<Process> queue1 = new Queue<Process>();
         Queue<Process> queue2 = new Queue<Process>();
         Queue<Process> queue3 = new Queue<Process>();
+
+        List<Process> completed = new List<Process>();
+
 
         /**Default constructor*/
         public MFQ() { }
@@ -74,6 +78,7 @@ namespace OSsimulation
                runs as fcfs for all queues*/
         void run(Queue<Process> thread_queue)
         {
+            int cpu_utilization = 0;
             int runtime_total = 0;
             //goes through every process in the queue that this thread is running
             for (int i = 0; i < thread_queue.Count; ++i)
@@ -81,10 +86,10 @@ namespace OSsimulation
                 thread_queue.Peek().time_wait = runtime_total;
                 thread_queue.Peek().time_response = runtime_total;
 
-                while(thread_queue.Peek().Bursts.Any())
+                while (thread_queue.Peek().Bursts.Any())
                 {
                     //IO burst
-                    if(thread_queue.Peek().Bursts.Peek().IO)
+                    if (thread_queue.Peek().Bursts.Peek().IO)
                     {
                         thread_queue.Peek().time_in_io += thread_queue.Peek().Bursts.Peek().Time;
                         thread_queue.Peek().Bursts.Dequeue();
@@ -94,7 +99,7 @@ namespace OSsimulation
                     {
                         thread_queue.Peek().time_on_cpu += thread_queue.Peek().Bursts.Peek().Time;
 
-                        if(i == 0)
+                        if (i == 0)
                         {
                             thread_queue.Peek().time_response = 0;
                         }
@@ -103,6 +108,7 @@ namespace OSsimulation
                             thread_queue.Peek().time_response = runtime_total;
                         }
                         thread_queue.Peek().Bursts.Dequeue();
+                        cpu_utilization += thread_queue.Peek().time_on_cpu;
                     }
 
                 }
@@ -119,7 +125,7 @@ namespace OSsimulation
             double avg_wait_time = 0;
             double avg_turnaround_time = 0;
 
-            for(int i = 0; i < thread_queue.Count; ++i)
+            for (int i = 0; i < thread_queue.Count; ++i)
             {
                 avg_response_time += thread_queue.Peek().time_response;
                 avg_turnaround_time += thread_queue.Peek().time_turnaround;
@@ -129,9 +135,24 @@ namespace OSsimulation
             avg_wait_time /= thread_queue.Count;
             avg_response_time /= thread_queue.Count;
             avg_turnaround_time /= thread_queue.Count;
+            cpu_utilization = (thread_queue.Peek().time_on_cpu) / (thread_queue.Peek().time_to_run);
+            mutex.WaitOne();
+            try
+            {
+                RecordKeeping.UpdateExcel_MFQ(thread_queue.Peek().PID, thread_queue.Peek().time_to_run,
+                thread_queue.Peek().time_turnaround, thread_queue.Peek().time_wait, thread_queue.Peek().time_response,
+                0, cpu_utilization, 0);
+                while (thread_queue.Count != 0)
+                {
+                    completed.Add(thread_queue.Dequeue());
+                }
+                System.Windows.MessageBox.Show(completed.Count.ToString());
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
 
-            //for testing purpose
-            System.Windows.MessageBox.Show(string.Format("Jobs completed: {0} in {1} cycles", thread_queue.Count, total_service_time));
         }
     }
 }
