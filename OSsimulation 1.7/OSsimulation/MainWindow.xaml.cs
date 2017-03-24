@@ -70,17 +70,22 @@ namespace OSsimulation
 
             DictGen gen = new DictGen();
             int num = Convert.ToInt32(NumTxt.Text);
+
+            SRT srt = new SRT();
+            srt.job_dict = gen.makeDict(num);
+            srt.run();
+
             SPN spn = new SPN();
             spn.job_dict = gen.makeDict(num);
             spn.run();
 
             MFQ mfq = new MFQ();
-            mfq.distribute(gen.makeDict(100));
+            mfq.distribute(gen.makeDict(num));
             mfq.thread_run();
 
             FCFS fcfs = new FCFS();
             fcfs.Run(gen.makeDict(num));
-
+        
             RoundRobin RoundRob = new RoundRobin();
             RoundRob.job_dict = gen.makeDict(num);
             RoundRob.Run(20);

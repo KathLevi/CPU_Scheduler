@@ -50,6 +50,7 @@ namespace OSsimulation
         public double time_response = 0;
         /** Wait time for given process */
         public double time_wait = 0;
+        public double time_to_run_remain = 0;
         //Counter to calculate total wait time, represents a timestamp
         public double counter = 0;
         public int context_switch_time = 0;

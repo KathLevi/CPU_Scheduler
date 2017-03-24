@@ -12,7 +12,7 @@
         <Button x:Name="AddBtn" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" Margin="28,231,0,0" RenderTransformOrigin="-2.279,1.36" FontSize="16" FontWeight="Bold" Click="AddBtn_Click"/>
         <Button x:Name="SubBtn" Content="-" HorizontalAlignment="Left" Margin="128,231,0,0" VerticalAlignment="Top" Width="28" FontSize="16" FontWeight="Bold" Click="SubBtn_Click"/>
         <TextBlock x:Name="ProcessLb" HorizontalAlignment="Left" Margin="24,205,0,0" TextWrapping="Wrap" Text="Num of Processes" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <TextBox x:Name="NumTxt" HorizontalAlignment="Left" Height="23" Margin="65,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" Text="10" FontSize="16" IsEnabled="False" TextAlignment="Center"/>
+        <TextBox x:Name="NumTxt" HorizontalAlignment="Left" Height="23" Margin="65,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" Text="100" FontSize="16" IsEnabled="False" TextAlignment="Center"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="526" VerticalAlignment="Top" Width="188" Margin="0,-12,0,-14.333" IsEnabled="False"/>
         <DataGrid x:Name="AlgorithmAvg" HorizontalAlignment="Left" Margin="200,174,0,0" VerticalAlignment="Top" Height="305" Width="582" AlternatingRowBackground="Gainsboro" AlternationCount="2" AutoGenerateColumns="False">
             <DataGrid.Columns>

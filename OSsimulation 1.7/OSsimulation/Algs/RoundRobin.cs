@@ -98,7 +98,7 @@ namespace OSsimulation
                             IO.Enqueue(temp);
                             
                         }
-
+                        #region
                         //CPU Burst Handling
                         else
                         {
@@ -159,7 +159,7 @@ namespace OSsimulation
                                 
                             }
                         }
-
+                        #endregion
                     }
                     else
                     {
